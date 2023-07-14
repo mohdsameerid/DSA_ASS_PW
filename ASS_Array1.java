@@ -100,3 +100,156 @@ class Solution {
         return ans;
     }
 } 
+
+
+
+
+// Question 4
+
+// 💡 **Q4.** You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+// Increment the large integer by one and return the resulting array of digits.
+
+// **Example 1:**
+// Input: digits = [1,2,3]
+// Output: [1,2,4]
+
+// **Explanation:** The array represents the integer 123.
+
+// Incrementing by one gives 123 + 1 = 124.
+// Thus, the result should be [1,2,4].
+
+// Leetcode Question link - https://leetcode.com/problems/plus-one/description/
+
+class Solution {
+    public int[] plusOne(int[] digits) {
+      int n = digits.length;
+      for(int i = n-1;i>=0;i--){
+          if(digits[i] < 9){
+              digits[i]++;
+              return digits;
+            //   break;            
+          }else{
+              digits[i] = 0;
+          }
+      }
+
+      if(digits[0] == 0){
+          int [] res = new int[n+1];
+          res[0] = 1;
+          return res;
+      }
+      return digits;
+    }
+}
+
+
+//Question 5
+// 💡  ****You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+// Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+// The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+// **Example 1:**
+// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+// Output: [1,2,2,3,5,6]
+
+// Leetcode Link - https://leetcode.com/problems/merge-sorted-array/
+
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+       int p1 = m-1;
+       int p2 = n-1;
+       int i = m+n-1;
+     
+             while(p2 >= 0){
+                 if(p1 >=0 && nums1[p1] > nums2[p2]){
+                     nums1[i--] = nums1[p1--];
+                 }else{
+                     nums1[i--] = nums2[p2--];
+                 }
+             }
+          
+    }
+}
+
+
+// 💡 **Q6.** Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+// **Example 1:**
+// Input: nums = [1,2,3,1]
+
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);
+        
+        for(int i =0;i<nums.length-1;i++){
+           if(nums[i] == nums[i+1])return true;
+        }
+        return false ;
+       
+    }
+}
+
+// <aside>
+// 💡 **Q7.** Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the nonzero elements.
+
+// Note that you must do this in-place without making a copy of the array.
+
+// **Example 1:**
+// Input: nums = [0,1,0,3,12]
+// Output: [1,3,12,0,0]
+
+// </aside>
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int i = 0; 
+        for (int num:nums){
+            if(num != 0){
+                nums[i] = num;
+                i++;
+            }
+        }
+        while(i<nums.length){
+            nums[i] = 0;
+            i++;
+        }
+    }
+}
+
+// <aside>
+// 💡 **Q8.** You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+// You are given an integer array nums representing the data status of this set after the error.
+
+// Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+// **Example 1:**
+// Input: nums = [1,2,2,4]
+// Output: [2,3]
+
+// </aside>
+
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+// create an array in which the value of the cell with index n is equal to the number of repetitions n in the nums array
+        var numsOfRepeat = new int[nums.length+1]; 
+        var result = new int[2];
+        int missNum = 0; 
+        
+        for (int i = 0; i < nums.length; i++){
+            missNum = missNum + (i+1);  // sum all numbers from 1 to n            
+            numsOfRepeat[nums[i]]+=1; // increase the number of repetitions n
+            if (numsOfRepeat[nums[i]] == 2){  // check if n is a duplicate
+                result[0] = nums[i]; 
+            } else {
+                missNum-=nums[i]; // subtract from the sum from 1 to n each non-repeating element
+            }
+        }
+        
+        result[1] = missNum;
+        return result;
+    }
+}
